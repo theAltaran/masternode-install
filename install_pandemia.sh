@@ -1,7 +1,7 @@
 # Pandemia install script for Ubuntu 16.04
 VERSION="0.0.1"
-NODEPORT='47666'
-RPCPORT='47662'
+NODEPORT='48766'
+RPCPORT='48762'
 
 # Useful variables
 declare -r DATE_STAMP="$(date +%y-%m-%d-%s)"
@@ -59,7 +59,7 @@ function download_wallet() {
 	echo "Downloading wallet..."
 	mkdir /root/pandemia
 	mkdir /root/.pandemia
-	wget https://github.com/pandemiacoin/pandemia/releases/download/2.1.1.1/pandemia_ubuntu_16.04.tar.gz
+	wget https://github.com/pandemiacoin/pandemia/releases/download/2.1.1.2/pandemia_ubuntu_16.04.tar.gz
 	tar -zxvf pandemia_ubuntu_16.04.tar.gz
 	rm pandemia_ubuntu_16.04.tar.gz
 	echo "Done..."
@@ -109,16 +109,14 @@ function configure_masternode() {
 function addnodes() {
 	echo "Adding nodes..."
 	conffile=/root/.pandemia/pandemia.conf
-	echo -e "\naddnode=5.189.228.166:47666" >> ${conffile}
-	echo -e "addnode=95.213.191.188:47666"  >> ${conffile}
-	echo -e "addnode=5.189.228.168:47666"   >> ${conffile}
-	echo -e "addnode=31.184.252.68:47666"   >> ${conffile}
-	echo -e "addnode=31.184.252.86:47666"   >> ${conffile}
-	echo -e "addnode=31.184.252.85:47666"   >> ${conffile}
-	echo -e "addnode=5.189.228.170:47666"   >> ${conffile}
-	echo -e "addnode=92.53.67.44:47666"     >> ${conffile}
-	echo -e "addnode=95.213.203.247:47666"  >> ${conffile}
-	echo -e "addnode=5.188.41.254:47666\n"  >> ${conffile}
+	echo -e "\naddnode=92.53.91.122" >> ${conffile}
+	echo -e "addnode=85.119.150.151" >> ${conffile}
+	echo -e "addnode=5.189.228.224" >> ${conffile}
+	echo -e "addnode=5.101.49.132" >> ${conffile}
+	echo -e "addnode=37.228.118.18" >> ${conffile}
+	echo -e "addnode=95.213.200.15" >> ${conffile}
+	echo -e "addnode=92.53.77.110" >> ${conffile}
+	echo -e "addnode=95.213.195.108\n" >> ${conffile}
 	echo "Done..."
 }
 
