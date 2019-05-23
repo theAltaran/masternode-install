@@ -67,7 +67,7 @@ function download_wallet() {
 
 function configure_masternode() {
 	echo "Configuring masternode..."
-	conffile=/.pandemia/pandemia.conf
+	conffile=.pandemia/pandemia.conf
 	PASSWORD=`pwgen -1 20 -n` &>> ${SCRIPT_LOGFILE}
 	WANIP=$(dig +short myip.opendns.com @resolver1.opendns.com)
 	if [ "x$PASSWORD" = "x" ]; then
@@ -75,7 +75,7 @@ function configure_masternode() {
 	fi
 	echo "Loading and syncing wallet..."
 	echo "    if you see *error: Could not locate RPC credentials* message, do not worry"
-	/pandemia/pandemia-cli stop
+	pandemia/pandemia-cli stop
 	echo "It's okay :D"
 	sleep 10
 	echo -e "rpcuser=pandemiauser\nrpcpassword=${PASSWORD}\nrpcport=${RPCPORT}\nport=${NODEPORT}\nexternalip=${WANIP}\nlisten=1\nmaxconnections=250" >> ${conffile}
@@ -84,7 +84,7 @@ function configure_masternode() {
 	echo -e "         PLEASE WAIT 1 MINUTE AND DON'T CLOSE THIS WINDOW"
 	echo -e "==================================================================\e[0m"
 	echo ""
-	/pandemia/pandemiad -daemon
+	pandemia/pandemiad -daemon
 	echo "60 seconds left"
 	sleep 10
 	echo "50 seconds left"
@@ -98,17 +98,17 @@ function configure_masternode() {
 	echo "10 seconds left"
 	sleep 10
 	masternodekey=$(/pandemia/pandemia-cli masternode genkey)
-	/pandemia/pandemia-cli stop
+	pandemia/pandemia-cli stop
 	sleep 5
 	echo "Creating masternode config..."
 	echo -e "daemon=1\nmasternode=1\nmasternodeprivkey=$masternodekey" >> ${conffile}
 	echo "Done...Starting daemon..."
-	/pandemia/pandemiad -daemon
+	pandemia/pandemiad -daemon
 }
 
 function addnodes() {
 	echo "Adding nodes..."
-	conffile=/.pandemia/pandemia.conf
+	conffile=.pandemia/pandemia.conf
 	echo -e "\naddnode=92.53.91.122" >> ${conffile}
 	echo -e "addnode=85.119.150.151" >> ${conffile}
 	echo -e "addnode=5.189.228.224" >> ${conffile}
@@ -137,7 +137,7 @@ function show_result() {
 
 function cronjob() {
 	crontab -l > tempcron
-	echo "@reboot /pandemia/pandemiad -daemon -reindex" > tempcron
+	echo "@reboot pandemia/pandemiad -daemon -reindex" > tempcron
 	crontab tempcron
 	rm tempcron
 }
