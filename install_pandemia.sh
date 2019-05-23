@@ -57,8 +57,8 @@ function install_packages() {
 
 function download_wallet() {
 	echo "Downloading wallet..."
-	mkdir /root/pandemia
-	mkdir /root/.pandemia
+	mkdir /pandemia
+	mkdir /.pandemia
 	wget https://github.com/pandemiacoin/pandemia/releases/download/2.1.1.2/pandemia_ubuntu_16.04.tar.gz
 	tar -zxvf pandemia_ubuntu_16.04.tar.gz
 	rm pandemia_ubuntu_16.04.tar.gz
@@ -67,7 +67,7 @@ function download_wallet() {
 
 function configure_masternode() {
 	echo "Configuring masternode..."
-	conffile=/root/.pandemia/pandemia.conf
+	conffile=/.pandemia/pandemia.conf
 	PASSWORD=`pwgen -1 20 -n` &>> ${SCRIPT_LOGFILE}
 	WANIP=$(dig +short myip.opendns.com @resolver1.opendns.com)
 	if [ "x$PASSWORD" = "x" ]; then
@@ -75,7 +75,7 @@ function configure_masternode() {
 	fi
 	echo "Loading and syncing wallet..."
 	echo "    if you see *error: Could not locate RPC credentials* message, do not worry"
-	/root/pandemia/pandemia-cli stop
+	/pandemia/pandemia-cli stop
 	echo "It's okay :D"
 	sleep 10
 	echo -e "rpcuser=pandemiauser\nrpcpassword=${PASSWORD}\nrpcport=${RPCPORT}\nport=${NODEPORT}\nexternalip=${WANIP}\nlisten=1\nmaxconnections=250" >> ${conffile}
@@ -84,7 +84,7 @@ function configure_masternode() {
 	echo -e "         PLEASE WAIT 1 MINUTE AND DON'T CLOSE THIS WINDOW"
 	echo -e "==================================================================\e[0m"
 	echo ""
-	/root/pandemia/pandemiad -daemon
+	/pandemia/pandemiad -daemon
 	echo "60 seconds left"
 	sleep 10
 	echo "50 seconds left"
@@ -97,18 +97,18 @@ function configure_masternode() {
 	sleep 10
 	echo "10 seconds left"
 	sleep 10
-	masternodekey=$(/root/pandemia/pandemia-cli masternode genkey)
-	/root/pandemia/pandemia-cli stop
+	masternodekey=$(/pandemia/pandemia-cli masternode genkey)
+	/pandemia/pandemia-cli stop
 	sleep 5
 	echo "Creating masternode config..."
 	echo -e "daemon=1\nmasternode=1\nmasternodeprivkey=$masternodekey" >> ${conffile}
 	echo "Done...Starting daemon..."
-	/root/pandemia/pandemiad -daemon
+	/pandemia/pandemiad -daemon
 }
 
 function addnodes() {
 	echo "Adding nodes..."
-	conffile=/root/.pandemia/pandemia.conf
+	conffile=/.pandemia/pandemia.conf
 	echo -e "\naddnode=92.53.91.122" >> ${conffile}
 	echo -e "addnode=85.119.150.151" >> ${conffile}
 	echo -e "addnode=5.189.228.224" >> ${conffile}
@@ -129,7 +129,7 @@ function show_result() {
    echo -e "\e[31mMASTERNODE IP: ${WANIP}:${NODEPORT} \e[0m"
    echo -e "\e[31mMASTERNODE PRIVATE GENKEY: ${masternodekey} \e[0m"
    echo ""
-   echo -e "You can check your masternode status on VPS with \e[31m/root/pandemia/pandemia-cli masternode status\e[0m command"
+   echo -e "You can check your masternode status on VPS with \e[31m/pandemia/pandemia-cli masternode status\e[0m command"
    echo -e "If you get \"Masternode not in masternode list\" status, don't worry,\nyou just have to start your MN from your local wallet and the status will change."
    echo -e "Now you need to add alias in your local wallet"
    echo -e "\e[31m==================================================================\e[0m"
@@ -137,7 +137,7 @@ function show_result() {
 
 function cronjob() {
 	crontab -l > tempcron
-	echo "@reboot /root/pandemia/pandemiad -daemon -reindex" > tempcron
+	echo "@reboot /pandemia/pandemiad -daemon -reindex" > tempcron
 	crontab tempcron
 	rm tempcron
 }
