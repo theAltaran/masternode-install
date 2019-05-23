@@ -97,7 +97,7 @@ function configure_masternode() {
 	sleep 10
 	echo "10 seconds left"
 	sleep 10
-	masternodekey=$(/pandemia/pandemia-cli masternode genkey)
+	masternodekey=$(pandemia/pandemia-cli masternode genkey)
 	pandemia/pandemia-cli stop
 	sleep 5
 	echo "Creating masternode config..."
