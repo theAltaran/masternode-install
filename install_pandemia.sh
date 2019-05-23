@@ -57,8 +57,8 @@ function install_packages() {
 
 function download_wallet() {
 	echo "Downloading wallet..."
-	mkdir /pandemia
-	mkdir /.pandemia
+	mkdir pandemia
+	mkdir .pandemia
 	wget https://github.com/pandemiacoin/pandemia/releases/download/2.1.1.2/pandemia_ubuntu_16.04.tar.gz
 	tar -zxvf pandemia_ubuntu_16.04.tar.gz
 	rm pandemia_ubuntu_16.04.tar.gz
